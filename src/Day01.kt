@@ -1,21 +1,32 @@
+import kotlin.math.abs
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
-
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/Day01_test.txt` file:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    part1(testInput).println() // 11
+    part2(testInput).println() // 31
 
-    // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    part1(input).println() // 1388114
+    part2(input).println() // 23529853
+}
+
+fun part1(input: List<String>): Int {
+    val (leftIds, rightIds) = parseIds(input)
+
+    return leftIds.sorted()
+        .zip(rightIds.sorted())
+        .sumOf { (left, right) -> abs(left - right) }
+}
+
+fun part2(input: List<String>): Int {
+    val (leftIds, rightIds) = parseIds(input)
+
+    val rightCounts = rightIds.groupingBy { it }.eachCount()
+
+    return leftIds.sumOf { leftId -> leftId * (rightCounts[leftId] ?: 0) }
+}
+
+fun parseIds(input: List<String>) = input.fold(emptyList<Int>() to emptyList<Int>()) { (leftList, rightList), line ->
+    val (left, right) = line.split("   ").map(String::toInt)
+    leftList + left to rightList + right
 }
