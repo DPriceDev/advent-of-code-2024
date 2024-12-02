@@ -30,7 +30,7 @@ class Day02Test {
     }
 
     @Test
-    fun `given input - when part 1 - then result is 689`() {
+    fun `given input - when part 2 - then result is 689`() {
         val input = readInput("day02/input")
         val result = part2(input)
 
