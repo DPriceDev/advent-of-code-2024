@@ -1,28 +1,20 @@
 package day03
 
-fun part1(input: String): Long {
-    val regex = """mul\((\d+),(\d+)\)""".toRegex()
+fun part1(input: String) = MULTIPLY_REGEX.findAll(input).map { it.groupValues.drop(1) }.sumOf(::multiply)
 
-    return regex.findAll(input).sumOf { match ->
-        val (a, b) = match.destructured
-        a.toLong() * b.toLong()
+fun part2(input: String) = DO_DON_T_MULTIPLY_REGEX.findAll(input).fold(0L to true, ::parseCommand).first
+
+private fun parseCommand(previous: Pair<Long, Boolean>, match: MatchResult): Pair<Long, Boolean> {
+    val (sum, isEnabled) = previous
+    val (command) = match.destructured
+    return when {
+        command == "don't" -> sum to false
+        command == "mul" && isEnabled -> sum + match.groupValues.drop(2).let(::multiply) to true
+        else -> sum to (command == "do" || isEnabled)
     }
 }
 
-fun part2(input: String): Long {
-    val regex = """(mul|do|don't)(?:(?<=mul)\((\d+),(\d+)\)|\(\))""".toRegex()
+private fun multiply(values: List<String>) = values.map(String::toLong).reduce(Long::times)
 
-    val (sum, _) = regex.findAll(input).fold(0L to true) { (sum, isEnabled), match ->
-        val (command) = match.destructured
-        when {
-            command == "do" -> sum to true
-            command == "don't" -> sum to false
-            command == "mul" && isEnabled -> {
-                val (_, a, b) = match.destructured
-                sum + a.toLong() * b.toLong() to true
-            }
-            else -> sum to isEnabled
-        }
-    }
-    return sum
-}
+private val MULTIPLY_REGEX = """mul\((\d+),(\d+)\)""".toRegex()
+private val DO_DON_T_MULTIPLY_REGEX = """(mul|do|don't)(?:(?<=mul)\((\d+),(\d+)\)|\(\))""".toRegex()
