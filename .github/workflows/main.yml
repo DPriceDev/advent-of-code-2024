@@ -9,6 +9,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache Amper
+        id: cache-amper
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Amper
+          key: ${{ runner.os }}-amper-${{ hashFiles('amper.bat', 'amper', **/module.yaml) }}
+          restore-keys: |
+            ${{ runner.os }}-amper-
+
       - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
@@ -24,4 +33,4 @@ jobs:
       - name: Test Results
         uses: test-summary/action@v2
         with:
-          paths: "build/reports/TEST-*.xml"
+          paths: "build/tasks/_advent-of-code-2024_testJvm/reports/TEST-*.xml"
