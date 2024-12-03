@@ -1,4 +1,5 @@
 # advent-of-code-2024
+[![CI](https://github.com/DPriceDev/advent-of-code-2024/actions/workflows/main.yml/badge.svg)](https://github.com/DPriceDev/advent-of-code-2024/actions/workflows/main.yml)
 
 Welcome to the Advent of Code[^aoc] Kotlin project created by [dpricedev][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
 
