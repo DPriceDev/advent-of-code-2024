@@ -1,39 +1,40 @@
 package day03
 
 import readInput
+import readLines
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class Day03Test {
     @Test
-    fun `given test input - when part 1 - then result is 0`() {
+    fun `given test input - when part 1 - then result is 161`() {
         val input = readInput("day03/test")
         val result = part1(input)
 
-        assertEquals(0, result)
+        assertEquals(161, result)
     }
 
     @Test
-    fun `given test input - when part 2 - then result is 0`() {
-        val input = readInput("day03/test")
+    fun `given test input - when part 2 - then result is 48`() {
+        val input = readInput("day03/test_part2")
         val result = part2(input)
 
-        assertEquals(0, result)
+        assertEquals(48, result)
     }
 
     @Test
-    fun `given input - when part 1 - then result is 0`() {
+    fun `given input - when part 1 - then result is 166357705`() {
         val input = readInput("day03/input")
         val result = part1(input)
 
-        assertEquals(0, result)
+        assertEquals(166357705, result)
     }
 
     @Test
-    fun `given input - when part 2 - then result is 0`() {
+    fun `given input - when part 2 - then result is 88811886`() {
         val input = readInput("day03/input")
         val result = part2(input)
 
-        assertEquals(0, result)
+        assertEquals(88811886, result)
     }
 }
