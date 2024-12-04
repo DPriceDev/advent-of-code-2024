@@ -7,21 +7,20 @@ fun part1(input: List<String>) = with(input.map(String::toList)) {
     rows.sumOf { it.countOccurrences() }
 }
 
-private fun Sequence<Char>.countOccurrences() = windowed(4)
-    .map { it.joinToString("") }
-    .count { it == "XMAS" || it == "SAMX" }
-
 fun part2(input: List<String>) = with(input.toCoordinateGrid()) {
     val rows = asDiagonalSequence() + asReversed().asDiagonalSequence()
     rows.flatMap { it.findCenterPoints() }
-        .groupingBy { it }
-        .eachCount()
-        .count { (_, count) -> count > 1 }
+        .groupBy { it }
+        .count { (_, coords) -> coords.size > 1 }
 }
 
 private fun List<String>.toCoordinateGrid() = mapIndexed { row, line ->
     line.mapIndexed { column, letter -> (row to column) to letter }
 }
+
+private fun Sequence<Char>.countOccurrences() = windowed(4)
+    .map { it.joinToString("") }
+    .count { it == "XMAS" || it == "SAMX" }
 
 private fun Sequence<Pair<Pair<Int, Int>, Char>>.findCenterPoints() = windowed(3)
     .mapNotNull { row ->
@@ -29,7 +28,7 @@ private fun Sequence<Pair<Pair<Int, Int>, Char>>.findCenterPoints() = windowed(3
         if (word == "MAS" || word == "SAM") row[1].first else null
     }
 
-private inline fun <reified T> List<List<T>>.asHorizontalSequence() = asSequence().map(List<T>::asSequence)
+private fun <T> List<List<T>>.asHorizontalSequence() = asSequence().map(List<T>::asSequence)
 
 private fun <T> List<List<T>>.asVerticalSequence() = sequence {
     first().indices.forEach { column ->
